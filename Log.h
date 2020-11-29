@@ -1,6 +1,7 @@
 #ifndef SUBTLE_LIBRARY_LOG_H
 #define SUBTLE_LIBRARY_LOG_H
 
+#define SET_LOG(X,Y) Log::setLogLevel(Log::LOG_LEVEL::X, Y)
 #define LOG(X,Y...) Log::message(X, __FILE__, __LINE__, Y)
 #include <stdio.h>
 #include <string.h>
@@ -10,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 
+namespace QuaeModicaUtil {
 class Log {
 public:
     // log level equivalent to syslog per RFC 5424
@@ -28,9 +30,9 @@ public:
     /**
      * 
      */
-    static void setLogLevel(LOG_LEVEL level, bool enable = true) {
-        LOG(DEBUG, "%s %s logging", enable ? "enabling" : "disabling", Log::get_instance().logLevelToString(level).c_str());
+    static void setLogLevel(LOG_LEVEL level, bool enable) {
         Log::get_instance().bools[level] = enable;
+        LOG(DEBUG, "%s %s logging", enable ? "enabling" : "disabling", Log::get_instance().logLevelToString(level).c_str());
     }
 
     /**
@@ -53,7 +55,9 @@ public:
         std::ostringstream oss;
         oss << "DATETIME";
 
-        oss << "[" << log.logLevelToString(type) << " " << source << ":" << line;
+        oss << "[" << log.logLevelToString(type) << " " << source << ":" << line << "]  ";
+
+        // TODO varargs
 
     }
 private:
@@ -101,15 +105,17 @@ private:
      * 
      */
     Log() {
-
+        // start with everything but debug enabled
+        for (int ii = 0; ii < LOG_LEVEL_SIZE; ii++) {
+            bools[ii] = true;
+        }
+        bools[DEBUG] = false;
     }
 
     /**
      * 
      */
-    ~Log() {
-
-    }
+    ~Log() {}
 
     /**
      * 
@@ -119,4 +125,5 @@ private:
         return instance;
     }
 };
+}
 #endif // ifndef SUBTLE_LIBRARY_LOG_H
