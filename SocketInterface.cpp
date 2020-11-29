@@ -79,7 +79,7 @@ private:
           continue;
         }
       } else {
-        if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+        if (::connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
           close(sockfd);
           perror("client: connect");
           continue;
@@ -150,6 +150,6 @@ private:
     return "";
   }
   bool childSend(std::string value) {
-    return send(isServer ? client : _socket, value.c_str(), value.length(), 0) == (unsigned int) value.length();
+    return ::send(isServer ? client : _socket, value.c_str(), value.length(), 0) == (unsigned int) value.length();
   }
 };
