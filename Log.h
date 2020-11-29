@@ -2,7 +2,7 @@
 #define SUBTLE_LIBRARY_LOG_H
 
 #define SET_LOG(X,Y) Log::setLogLevel(Log::LOG_LEVEL::X, Y)
-#define LOG(X,Y...) Log::message(X, __FILE__, __LINE__, Y)
+#define LOG(X,Y...) Log::message(Log::LOG_LEVEL::X, __FILE__, __LINE__, Y)
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>

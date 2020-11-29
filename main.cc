@@ -5,13 +5,13 @@ using namespace QuaeModicaUtil;
 void serverTest() {
   SocketInterface server("localhost", "24601", true);
   std::string response = server.receive();
-  printf("server received: %s", response.c_str());
+  LOG(DEBUG, "server received: %s", response.c_str());
 }
 
 void clientTest() {
   SocketInterface client("localhost", "24601");
   std::string message = "I am the very model of a modern major general";
-  printf("client sending:  %s", message.c_str());
+  LOG(DEBUG, "client sending:  %s", message.c_str());
   client.send(message);
 }
 
