@@ -46,19 +46,24 @@ public:
         }
 
         va_list args;
-        va_start(args, message);
+        va_start(args, msg);
 
         while (strstr(source, "/") != NULL) {
             source = strstr(source, "/") + 1;
         }
 
+        // build log message header
         std::ostringstream oss;
-        oss << "DATETIME";
-
+        oss << "DATETIME "; // TODO actual datetime
         oss << "[" << log.logLevelToString(type) << " " << source << ":" << line << "]  ";
 
-        // TODO varargs
+        // load varargs into log message
+        char buffer[1024];
+        vsnprintf(buffer, sizeof(buffer), msg, args);
+        oss << buffer << std::endl;
 
+        // TODO for now just printf
+        fprintf(stdout, "%s", oss.str().c_str());
     }
 private:
     // boolean array storing state of log levels
