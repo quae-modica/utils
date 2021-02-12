@@ -48,12 +48,12 @@ private:
     if (isServer) {
       hints.ai_flags = AI_PASSIVE; // use my IP
       if ((rv = getaddrinfo(NULL, port.c_str(), &hints, &servinfo)) != 0) {
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+        LOG(ERROR, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
       }
     } else {
       if ((rv = getaddrinfo(ip.c_str(), port.c_str(), &hints, &servinfo)) != 0) {
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+        LOG(ERROR, "getaddrinfo: %s\n", gai_strerror(rv));
         return 1;
       }
     }
@@ -91,20 +91,20 @@ private:
 
     if (!isServer) {
       if (p == NULL) {
-        fprintf(stderr, "client: failed to connect\n");
+        LOG(ERROR, "client: failed to connect\n");
         return 2;
       }
 
       inet_ntop(p->ai_family, get_in_addr((struct sockaddr *)p->ai_addr),
           s, sizeof s);
-      printf("client: connecting to %s\n", s);
+      LOG(DEBUG, "client: connecting to %s\n", s);
     }
 
     freeaddrinfo(servinfo); // all done with this structure
 
     if (isServer) {
       if (p == NULL)  {
-        fprintf(stderr, "server: failed to bind\n");
+        LOG(ERROR, "server: failed to bind\n");
         exit(1);
       }
 
@@ -124,7 +124,7 @@ private:
       inet_ntop(their_addr.ss_family,
           get_in_addr((struct sockaddr *)&their_addr),
           s, sizeof s);
-      printf("server: got connection from %s\n", s);
+      LOG(DEBUG, "server: got connection from %s\n", s);
     }
     return true;
   }

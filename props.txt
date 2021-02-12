@@ -1,0 +1,6 @@
+# comment
+name=utility_test
+messaging_host=localhost
+messaging_port=24601
+properties_bool=true
+properties_float=2.4601

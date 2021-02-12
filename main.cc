@@ -20,9 +20,11 @@ int main(int argc, char **argv) {
   (void) argv;
   SET_LOG(DEBUG, true);
   if (fork() == 0) {
+    LOG(DEBUG, "starting server test...");
     serverTest();
   }
   if (fork() == 0) {
+    LOG(DEBUG, "starting client test...");
     clientTest();
   }
   return 0;

@@ -1,5 +1,6 @@
 #ifndef QUAE_MODICA_INTERFACE_H
 #define QUAE_MODICA_INTERFACE_H
+#include "Log.h"
 
 namespace QuaeModicaUtil {
 /**
