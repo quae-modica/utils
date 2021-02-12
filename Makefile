@@ -1,24 +1,24 @@
 CC = g++
-OPTIONS = -Wall -Wextra -ggdb
-INCLUDES = -lrt -pthread -Iinc/
+OPTIONS = -Wall -Wextra -Werror -ggdb
+INCLUDES = -lrt -pthread -Iinc/ -Lobj/
 
-test: src/Test.cpp
-	${CC} ${OPTIONS} ${INCLUDES} $?
+# make obj directory
+$(shell mkdir -p obj)
 
-log.o: src/Log.cpp
-	${CC} ${OPTIONS} ${INCLUDES} -c $? -o $@
+# 
+util-test: libutil.so obj/main.o
+	${CC} ${OPTIONS} ${INCLUDES} obj/main.o -o $@
 
-time.o: src/Time.cpp
-	${CC} ${OPTIONS} ${INCLUDES} -c $? -o $@
+libutil.so: $(patsubst src/%.cpp,obj/%.o,$(wildcard src/*cpp))
+	${CC} -shared ${OPTIONS} ${INCLUDES} -o $@
 
-properties.o: src/Properties.cpp
-	${CC} ${OPTIONS} ${INCLUDES} -c $? -o $@
-
-socket.o: src/Socket.cpp
-	${CC} ${OPTIONS} ${INCLUDES} -c $? -o $@
-
-library: log.o time.o properties.o socket.o
-	ar rcs libutil.a $?
+# build any source file into an object file
+obj/main.o: src/main.cc
+	${CC} ${OPTIONS} ${INCLUDES} -c $< -o $@
+obj/%.o: src/%.cpp
+	${CC} ${OPTIONS} ${INCLUDES} -c $< -o $@
 
 clean:
-	rm -rf *.o a.out
+	rm -rf obj util-test libutil.so
+
+.PHONY: clean
