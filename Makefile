@@ -6,8 +6,8 @@ INCLUDES = -lrt -pthread -Iinc/ -Lobj/
 $(shell mkdir -p obj)
 
 # 
-util-test: libutil.so obj/main.o
-	${CC} ${OPTIONS} ${INCLUDES} obj/main.o -o $@
+util-test: obj/main.o libutil.so
+	${CC} ${OPTIONS} ${INCLUDES} $< -o $@
 
 libutil.so: $(patsubst src/%.cpp,obj/%.o,$(wildcard src/*cpp))
 	${CC} -shared ${OPTIONS} ${INCLUDES} -o $@
