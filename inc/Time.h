@@ -24,7 +24,7 @@ public:
     // create a combined date and time string in ISO 8601 format
     time_t t = time.tv_sec;
     strftime(ans, sizeof(ans), "%F %T", gmtime(&t));
-    sprintf(ans + strlen(ans), ".%031lu", time.tv_nsec / 1000000);
+    snprintf(ans + strlen(ans), sizeof(ans), ".%03lu", time.tv_nsec / 1000000);
     return std::string(ans);
   }
 
