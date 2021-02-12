@@ -237,7 +237,7 @@ public:
         protocol_string = "UNKNOWN";
         break;
     }
-    LOG(DEBUG, "Soppting %s %s @ %s:%s", protocol_string.c_str(), role_string.c_str(), address.c_str(), port.c_str());
+    LOG(DEBUG, "Stopping %s %s @ %s:%s", protocol_string.c_str(), role_string.c_str(), address.c_str(), port.c_str());
 
     close(socket_descriptor);
     return 0;
